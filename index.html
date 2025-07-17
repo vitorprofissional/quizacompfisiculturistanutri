@@ -190,7 +190,8 @@
             question.options.forEach(option => {
                 const button = document.createElement('button');
                 button.textContent = option.text;
-                button.className = "w-full text-left p-4 bg-gray-800 rounded-lg border-2 border-gray-700 hover:border-neon-orange hover:bg-gray-700/80 transition-all duration-200";
+                // AJUSTE: Adicionada a classe text-base para evitar zoom automático no mobile
+                button.className = "w-full text-left p-4 bg-gray-800 rounded-lg border-2 border-gray-700 hover:border-neon-orange hover:bg-gray-700/80 transition-all duration-200 text-base";
                 button.onclick = () => selectAnswer(option.points);
                 optionsContainer.appendChild(button);
             });
