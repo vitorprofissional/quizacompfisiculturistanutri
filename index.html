@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Seu Plano Nutricional de Fisiculturismo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+        }
+        .font-barlow {
+            font-family: 'Barlow Condensed', sans-serif;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .slide-up {
+            animation: slideUp 0.4s ease-out forwards;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        .progress-bar-fill {
+            transition: width 0.5s ease-in-out;
+        }
+        /* Nova paleta de cores Laranja */
+        .neon-orange { color: #FF9900; }
+        .bg-neon-orange { background-color: #FF9900; }
+        .border-neon-orange { border-color: #FF9900; }
+        .hover\:bg-neon-orange-dark:hover { background-color: #E68A00; }
+        .quiz-card {
+            background-color: #0A0A0A;
+            border: 2px solid #FF9900;
+            box-shadow: 0 0 25px rgba(255, 153, 0, 0.25);
+        }
+    </style>
+</head>
+<body class="bg-black text-white flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-4xl mx-auto rounded-xl overflow-hidden">
+        
+        <!-- Tela de Boas-vindas (Hero Section) -->
+        <div id="welcome-screen" class="fade-in">
+            <div class="relative min-h-[600px] md:min-h-[550px] flex flex-col items-center justify-center text-center p-8 quiz-card rounded-xl">
+                 <!-- Background Image and Overlay -->
+                <div class="absolute inset-0">
+                    <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=2069&auto=format&fit=crop" alt="Atleta de fisiculturismo treinando" class="h-full w-full object-cover rounded-xl opacity-30">
+                    <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
+                </div>
+                
+                <!-- Content -->
+                <div class="relative z-10">
+                    <h1 class="font-barlow text-4xl md:text-6xl font-black neon-orange uppercase tracking-wider mb-4">Qual potência a sua dieta pode alcançar?</h1>
+                    <div class="mb-6 py-2 px-4 inline-block border border-gray-700 rounded-md">
+                        <p class="text-sm md:text-base text-gray-300">Nutricionista de campeões como <strong class="text-white">Gracyanne Barbosa</strong> • <strong class="text-white">Bruno Santos</strong> • <strong class="text-white">Pantera</strong></p>
+                    </div>
+                    <p class="text-lg md:text-xl text-gray-200 mb-8 max-w-2xl mx-auto">Responda 5 perguntas rápidas e receba um diagnóstico nutricional personalizado – gratuito.</p>
+                    <button id="start-btn" class="bg-neon-orange text-black font-bold text-xl py-4 px-12 rounded-lg shadow-lg hover:bg-neon-orange-dark transform hover:scale-105 transition-all duration-300">
+                        Começar 💥
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela do Quiz -->
+        <div id="quiz-screen" class="hidden p-6 md:p-10 fade-in quiz-card rounded-xl">
+            <!-- Barra de Progresso -->
+            <div class="mb-8">
+                <p id="progress-text" class="text-center text-sm font-semibold text-gray-400 mb-2">Pergunta 1/5</p>
+                <div class="w-full bg-gray-800 rounded-full h-2">
+                    <div id="progress-bar" class="bg-neon-orange h-2 rounded-full progress-bar-fill" style="width: 20%"></div>
+                </div>
+            </div>
+
+            <!-- Container da Pergunta -->
+            <div id="question-container" class="max-w-2xl mx-auto">
+                <h2 id="question-title" class="font-barlow text-2xl md:text-3xl font-bold text-center mb-8"></h2>
+                <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Opções serão inseridas aqui -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Resultado (Modal) -->
+        <div id="result-screen" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div class="w-full max-w-2xl mx-auto quiz-card rounded-xl p-8 text-center slide-up">
+                <h2 id="result-headline" class="font-barlow text-3xl md:text-4xl font-black neon-orange mb-4"></h2>
+                <div class="bg-black/20 rounded-lg p-6 my-6">
+                    <p class="text-gray-300 mb-2 font-semibold">Estimativa de Progresso:</p>
+                    <p id="result-progress" class="text-lg font-bold text-white"></p>
+                </div>
+                <p id="result-motivation" class="italic text-gray-400 mb-8"></p>
+                
+                <div class="text-left bg-black/30 p-6 rounded-lg mb-8 border border-gray-800">
+                     <h3 class="text-xl font-bold mb-4 neon-orange">Recomendações Imediatas:</h3>
+                     <ul id="result-tips" class="space-y-3 text-gray-200">
+                        <!-- Dicas serão inseridas aqui -->
+                     </ul>
+                </div>
+
+                <div class="bg-red-500/20 border border-red-500 text-red-300 p-4 rounded-lg mb-8">
+                    <p class="font-bold">🎁 Código “SHRED50” → 50% OFF na 1ª mensalidade!</p>
+                    <p class="text-sm">(Válido por 5 dias)</p>
+                </div>
+                
+                <a id="cta-link" href="https://wa.me/5521920194389?text=Quero+meu+plano+nutricional+personalizado" target="_blank" class="block w-full bg-neon-orange text-black font-bold text-xl py-4 px-10 rounded-lg shadow-lg hover:bg-neon-orange-dark transform hover:scale-105 transition-all duration-300">
+                    Agendar avaliação gratuita 💬
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURAÇÃO DO QUIZ ---
+        const quizData = [
+            { question: "Qual é seu objetivo atual?", options: [ { text: "Ganho de massa", points: 10 }, { text: "Cutting (definição)", points: 10 }, { text: "Recomposição corporal", points: 10 } ] },
+            { question: "Tem competição marcada?", options: [ { text: "Não", points: 5 }, { text: "Sim, em mais de 3 meses", points: 10 }, { text: "Sim, em até 3 meses", points: 20 } ] },
+            { question: "Nível competitivo ou tempo de treino sério?", options: [ { text: "< 1 ano", points: 5 }, { text: "1-3 anos", points: 10 }, { text: "3-5 anos", points: 15 }, { text: "5+ anos / Competidor", points: 25 } ] },
+            { question: "Como está sua dieta hoje?", options: [ { text: "Não sigo nada", points: 5 }, { text: "Acompanho macros por app", points: 10 }, { text: "Sigo uma dieta de coach", points: 15 }, { text: "Tenho dieta 100% personalizada", points: 20 } ] },
+            { question: "Quanto pretende investir por mês em nutrição (comida + suplementos)?", options: [ { text: "< R$300", points: 5 }, { text: "R$300 - R$600", points: 10 }, { text: "R$600 - R$1.000", points: 20 }, { text: "R$1.000+", points: 30 } ] }
+        ];
+
+        const resultProfiles = {
+            novato: { // 0-35
+                headline: "Iniciante Dedicado",
+                progress: "Com uma base nutricional sólida, você pode ganhar de 3-5kg de massa muscular nos primeiros 6 meses.",
+                motivation: "A jornada de um campeão começa com a primeira refeição planejada. Vamos construir sua base.",
+                tips: [ "Foque em fontes de proteína magra em todas as refeições.", "Aprenda a controlar porções e a frequência alimentar.", "Não tenha medo de carboidratos complexos para ter energia." ]
+            },
+            ascensao: { // 36-60
+                headline: "Atleta em Ascensão",
+                progress: "Com ajustes de macros e periodização de carboidratos, você pode subir ~2kg de massa magra em 12 semanas e reduzir 2-3% de BF.",
+                motivation: "Foco, garra e ciência: o combo que transforma palco em vitória.",
+                tips: [ "Implemente 'carb cycling' (2 dias high • 1 dia low) para otimizar a insulina.", "Ajuste a ingestão de creatina para 0,1g/kg e a hidratação para 40ml/kg.", "Monitore o sódio e o potássio para controlar a retenção hídrica." ]
+            },
+            competidor: { // 61-80
+                headline: "Competidor de Elite",
+                progress: "Refinando o timing de nutrientes e a suplementação pré-contest, podemos otimizar sua 'peak week' para um físico mais denso e seco no palco.",
+                motivation: "O troféu é conquistado nos detalhes que ninguém vê. Sua nutrição é sua arma secreta.",
+                tips: [ "Periodize a suplementação de termogênicos e vasodilatadores.", "Otimize a janela de refeição pós-treino para máxima recuperação.", "Faça ajustes finos nos micronutrientes para evitar cãibras e fadiga." ]
+            },
+            pro: { // 81-100
+                headline: "Profissional em Busca de Vantagem",
+                progress: "Em seu nível, a otimização de micronutrientes, saúde intestinal e timing hormonal via dieta pode ser a diferença entre o 1º e o 2º lugar.",
+                motivation: "Quando todos treinam duro, a ciência nutricional define o campeão. Vamos encontrar sua vantagem.",
+                tips: [ "Analise exames de sangue para guiar a suplementação de micronutrientes.", "Foque em alimentos anti-inflamatórios para acelerar a recuperação.", "Implemente um protocolo de saúde digestiva para máxima absorção de nutrientes." ]
+            }
+        };
+
+        // --- ELEMENTOS DO DOM ---
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const startBtn = document.getElementById('start-btn');
+        const progressText = document.getElementById('progress-text');
+        const progressBar = document.getElementById('progress-bar');
+        const questionTitle = document.getElementById('question-title');
+        const optionsContainer = document.getElementById('options-container');
+        const resultHeadline = document.getElementById('result-headline');
+        const resultProgress = document.getElementById('result-progress');
+        const resultMotivation = document.getElementById('result-motivation');
+        const resultTips = document.getElementById('result-tips');
+
+        // --- ESTADO DO QUIZ ---
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        // --- FUNÇÕES DO QUIZ ---
+        function startQuiz() {
+            welcomeScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            optionsContainer.innerHTML = '';
+            const question = quizData[currentQuestionIndex];
+            questionTitle.textContent = question.question;
+            updateProgress();
+            question.options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option.text;
+                button.className = "w-full text-left p-4 bg-gray-800 rounded-lg border-2 border-gray-700 hover:border-neon-orange hover:bg-gray-700/80 transition-all duration-200";
+                button.onclick = () => selectAnswer(option.points);
+                optionsContainer.appendChild(button);
+            });
+        }
+        
+        function selectAnswer(points) {
+            score += points;
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentQuestionIndex / quizData.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            progressText.textContent = `Pergunta ${currentQuestionIndex + 1}/${quizData.length}`;
+        }
+
+        function showResult() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            
+            let profile;
+            if (score <= 35) profile = resultProfiles.novato;
+            else if (score <= 60) profile = resultProfiles.ascensao;
+            else if (score <= 80) profile = resultProfiles.competidor;
+            else profile = resultProfiles.pro;
+
+            resultHeadline.textContent = profile.headline;
+            resultProgress.textContent = profile.progress;
+            resultMotivation.textContent = profile.motivation;
+            resultTips.innerHTML = '';
+            profile.tips.forEach(tip => {
+                const li = document.createElement('li');
+                li.textContent = tip;
+                resultTips.appendChild(li);
+            });
+        }
+
+        // --- EVENT LISTENERS ---
+        startBtn.addEventListener('click', startQuiz);
+        // Opcional: fechar modal ao clicar fora
+        resultScreen.addEventListener('click', function(e) {
+            if (e.target === resultScreen) {
+                resultScreen.classList.add('hidden');
+                // Opcional: resetar o quiz
+                // currentQuestionIndex = 0;
+                // score = 0;
+                // welcomeScreen.classList.remove('hidden');
+            }
+        });
+
+    </script>
+</body>
+</html>
