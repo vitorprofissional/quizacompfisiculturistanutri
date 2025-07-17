@@ -51,7 +51,7 @@
         
         <!-- Tela de Boas-vindas (Hero Section) -->
         <div id="welcome-screen" class="fade-in">
-            <div class="relative min-h-[600px] md:min-h-[550px] flex flex-col items-center justify-center text-center p-8 quiz-card rounded-xl">
+            <div class="relative min-h-[90vh] md:min-h-[550px] flex flex-col items-center justify-center text-center p-4 sm:p-8 quiz-card rounded-xl">
                  <!-- Background Image and Overlay -->
                 <div class="absolute inset-0">
                     <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=2069&auto=format&fit=crop" alt="Atleta de fisiculturismo treinando" class="h-full w-full object-cover rounded-xl opacity-30">
@@ -60,7 +60,7 @@
                 
                 <!-- Content -->
                 <div class="relative z-10">
-                    <h1 class="font-barlow text-4xl md:text-6xl font-black neon-orange uppercase tracking-wider mb-4">Qual potência a sua dieta pode alcançar?</h1>
+                    <h1 class="font-barlow text-4xl sm:text-5xl md:text-6xl font-black neon-orange uppercase tracking-wider mb-4">Qual potência a sua dieta pode alcançar?</h1>
                     <div class="mb-6 py-2 px-4 inline-block border border-gray-700 rounded-md">
                         <p class="text-sm md:text-base text-gray-300">Nutricionista de campeões como <strong class="text-white">Gracyanne Barbosa</strong> • <strong class="text-white">Bruno Santos</strong> • <strong class="text-white">Pantera</strong></p>
                     </div>
@@ -93,7 +93,7 @@
 
         <!-- Tela de Resultado (Modal) -->
         <div id="result-screen" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <div class="w-full max-w-2xl mx-auto quiz-card rounded-xl p-8 text-center slide-up">
+            <div class="w-full max-w-2xl mx-auto quiz-card rounded-xl p-6 md:p-8 text-center slide-up max-h-[90vh] overflow-y-auto">
                 <h2 id="result-headline" class="font-barlow text-3xl md:text-4xl font-black neon-orange mb-4"></h2>
                 <div class="bg-black/20 rounded-lg p-6 my-6">
                     <p class="text-gray-300 mb-2 font-semibold">Estimativa de Progresso:</p>
